@@ -1,24 +1,42 @@
-document.getElementById('quiz-form').addEventListener('submit', function (e) {
+document.getElementById('quizForm').addEventListener('submit', function(e) {
   e.preventDefault();
-  let score = 0;
-  let answers = {
-    q1: 'b',
-    q2: 'b',
-    q3: 'b'
+
+  const answers = {
+    q1: 'b', // Прозорість
+    q2: 'c', // Систематичне спотворення результатів
+    q3: 'd'  // Зниження рівня грамотності серед учнів (НЕ є)
   };
+
+  let score = 0;
+  let total = Object.keys(answers).length;
+  let unanswered = 0;
 
   for (let q in answers) {
     const selected = document.querySelector(input[name="${q}"]:checked);
-    if (selected && selected.value === answers[q]) {
+    if (!selected) {
+      unanswered++;
+    } else if (selected.value === answers[q]) {
       score++;
     }
   }
 
   const resultDiv = document.getElementById('result');
-  resultDiv.classList.remove('hidden');
-  resultDiv.innerHTML = `<h3>Результат:</h3>
-    <p>Ви відповіли правильно на ${score} із 3 питань.</p>
-    ${score === 3 ? "✅ Відмінно! Ви добре розумієте етичні аспекти ШІ." :
-      score === 2 ? "⚠️ Непогано, але варто переглянути матеріал." :
-      "❌ Спробуйте ще раз. Прочитайте уважніше розділ з етики ШІ."}`;
+  if (unanswered > 0) {
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = <p style="color:red;">Будь ласка, відповісти на всі питання! Ви пропустили ${unanswered}.</p>;
+    return;
+  }
+
+  let message = <p>Ваш результат: <strong>${score} з ${total}</strong>.</p>;
+
+  if(score === total) {
+    message += "<p>Відмінно! Ви добре розумієте етичні аспекти ШІ.</p>";
+  } else if(score >= total / 2) {
+    message += "<p>Непогано, але варто ще раз переглянути матеріал.</p>";
+  } else {
+    message += "<p>Рекомендуємо повторити тему для кращого розуміння.</p>";
+  }
+
+  resultDiv.style.display = 'block';
+  resultDiv.innerHTML = message;
 });
