@@ -1,45 +1,139 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Тест: Етика ШІ</title>
-  <link rel="stylesheet" href="custom.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Тест: Етика ШІ та соціальні наслідки</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f5f7fa;
+      color: #222;
+    }
+    h1 {
+      color: #004466;
+      text-align: center;
+    }
+    form {
+      max-width: 700px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+    .question {
+      margin-bottom: 20px;
+    }
+    .question p {
+      font-weight: bold;
+    }
+    label {
+      display: block;
+      margin: 6px 0;
+      cursor: pointer;
+    }
+    button {
+      background-color: #007acc;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005f99;
+    }
+    #result {
+      max-width: 700px;
+      margin: 20px auto;
+      background: #fff8dc;
+      padding: 15px 20px;
+      border-left: 6px solid #ffaa00;
+      border-radius: 5px;
+      font-size: 1.1rem;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>🧪 Тест з теми «Етика ШІ та соціальні наслідки»</h1>
-  </header>
 
-  <main>
-    <form id="quiz-form">
-      <div class="question">
-        <p><strong>1. Що таке алгоритмічне упередження?</strong></p>
-        <label><input type="radio" name="q1" value="a"> Удосконалений алгоритм навчання</label><br>
-        <label><input type="radio" name="q1" value="b"> Викривлення результату через дані або логіку</label><br>
-        <label><input type="radio" name="q1" value="c"> Захист приватності даних</label>
-      </div>
+  <h1>Тест: Етика ШІ та соціальні наслідки</h1>
 
-      <div class="question">
-        <p><strong>2. Який із прикладів є етичною проблемою у ШІ?</strong></p>
-        <label><input type="radio" name="q2" value="a"> Використання штучного інтелекту для розкладу дзвінків</label><br>
-        <label><input type="radio" name="q2" value="b"> Непрозоре прийняття рішень системою ШІ</label><br>
-        <label><input type="radio" name="q2" value="c"> Оптимізація графіків у компаніях</label>
-      </div>
+  <form id="quizForm">
+    <div class="question">
+      <p>1. Який з принципів етики ШІ означає можливість пояснити, як система приймає рішення?</p>
+      <label><input type="radio" name="q1" value="a"> а) Конфіденційність</label>
+      <label><input type="radio" name="q1" value="b"> б) Прозорість</label>
+      <label><input type="radio" name="q1" value="c"> в) Надійність</label>
+      <label><input type="radio" name="q1" value="d"> г) Автоматизація</label>
+    </div>
 
-      <div class="question">
-        <p><strong>3. Що таке "бульбашка фільтрів"?</strong></p>
-        <label><input type="radio" name="q3" value="a"> Система захисту файлів</label><br>
-        <label><input type="radio" name="q3" value="b"> Ефект персоналізації контенту, який ізолює користувача</label><br>
-        <label><input type="radio" name="q3" value="c"> Баг в алгоритмі машинного навчання</label>
-      </div>
+    <div class="question">
+      <p>2. Що таке упередженість в алгоритмах?</p>
+      <label><input type="radio" name="q2" value="a"> а) Висока точність</label>
+      <label><input type="radio" name="q2" value="b"> б) Недостатність даних</label>
+      <label><input type="radio" name="q2" value="c"> в) Систематичне спотворення результатів</label>
+      <label><input type="radio" name="q2" value="d"> г) Використання математичних формул</label>
+    </div>
 
-      <button type="submit">Перевірити</button>
-    </form>
+    <div class="question">
+      <p>3. Що НЕ є соціальним наслідком впровадження ШІ?</p>
+      <label><input type="radio" name="q3" value="a"> а) Зростання безробіття</label>
+      <label><input type="radio" name="q3" value="b"> б) Покращення медичної діагностики</label>
+      <label><input type="radio" name="q3" value="c"> в) Посилення залежності від машин</label>
+      <label><input type="radio" name="q3" value="d"> г) Зниження рівня грамотності серед учнів</label>
+    </div>
 
-    <div id="result" class="hidden"></div>
-  </main>
+    <button type="submit">Перевірити відповіді</button>
+  </form>
 
-  <script src="interactive.js"></script>
+  <div id="result" style="display:none;"></div>
+
+  <script>
+    document.getElementById('quizForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const answers = {
+        q1: 'b', // Прозорість
+        q2: 'c', // Систематичне спотворення результатів
+        q3: 'd'  // Зниження рівня грамотності серед учнів (НЕ є)
+      };
+
+      let score = 0;
+      let total = Object.keys(answers).length;
+      let unanswered = 0;
+
+      for (let q in answers) {
+        const selected = document.querySelector(input[name="${q}"]:checked);
+        if (!selected) {
+          unanswered++;
+        } else if (selected.value === answers[q]) {
+          score++;
+        }
+      }
+
+      const resultDiv = document.getElementById('result');
+      if (unanswered > 0) {
+        resultDiv.style.display = 'block';
+        resultDiv.innerHTML = <p style="color:red;">Будь ласка, відповісти на всі питання! Ви пропустили ${unanswered}.</p>;
+        return;
+      }
+
+      let message = <p>Ваш результат: <strong>${score} з ${total}</strong>.</p>;
+if(score === total) {
+        message += "<p>Відмінно! Ви добре розумієте етичні аспекти ШІ.</p>";
+      } else if(score >= total / 2) {
+        message += "<p>Непогано, але варто ще раз переглянути матеріал.</p>";
+      } else {
+        message += "<p>Рекомендуємо повторити тему для кращого розуміння.</p>";
+      }
+
+      resultDiv.style.display = 'block';
+      resultDiv.innerHTML = message;
+    });
+  </script>
+
 </body>
 </html>
